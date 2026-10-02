@@ -1,5 +1,9 @@
 # Deteksi Tanda Tangan pada Gambar Ijazah
 
+**Nama:** Waode Artika Sapta Pertiwi  
+**NIM:** F1G124081  
+**Kelas:** B
+
 Program Python ini mendeteksi kemungkinan adanya tanda tangan pada area tertentu di gambar ijazah. Program memproses hingga 9 gambar dan membandingkan hasil dua metode thresholding: **Global Threshold** dan **Otsu**.
 
 Deteksi dilakukan dengan teknik pengolahan citra dan aturan berdasarkan bentuk serta kepadatan tinta. Program ini tidak menggunakan model machine learning yang dilatih.
