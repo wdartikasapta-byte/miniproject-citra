@@ -107,6 +107,41 @@ Untuk setiap gambar, folder `hasil_ttd` dapat berisi:
 - `*_ttd_anotasi.png`: gambar asli dengan kotak ROI dan kotak komponen terbesar. Kotak komponen berwarna hijau jika terdeteksi dan merah jika tidak.
 - Dengan `--debug`: `*_global_biner.png`, `*_global_morfologi.png`, `*_otsu_biner.png`, dan `*_otsu_morfologi.png`.
 
+## Uji sistem dan analisis thresholding
+
+Program sebaiknya diuji dengan dua kelompok citra: citra yang memiliki tanda tangan pada ROI dan citra yang tidak memiliki tanda tangan pada ROI. Untuk kelompok tanpa tanda tangan, gunakan gambar ijazah atau area dokumen yang sama jenisnya, tetapi pastikan area ROI memang kosong. Jalankan kedua kelompok dengan perintah yang sama, lalu cocokkan hasil program dengan kondisi sebenarnya.
+
+### Hasil pada citra yang tersedia
+
+Keluaran contoh yang dilampirkan berisi 9 citra dengan variasi kualitas, seperti kontras rendah, blur, noise, resolusi rendah, dan kompresi JPEG. Hasilnya:
+
+| Citra | Global Threshold | Otsu |
+| --- | --- | --- |
+| `01_HighQuality_Enhanced.jpg` | PRESENT (1.00) | PRESENT (1.00) |
+| `02_LowContrast.jpg` | ABSENT (0.40) | PRESENT (1.00) |
+| `03_Blurred.jpg` | PRESENT (0.80) | PRESENT (1.00) |
+| `04_HighNoise.jpg` | PRESENT (1.00) | PRESENT (1.00) |
+| `05_LowResolution_Upsampled.jpg` | PRESENT (1.00) | PRESENT (1.00) |
+| `06_Faded_Underexposed.jpg` | PRESENT (1.00) | PRESENT (1.00) |
+| `07_ColorShift_WarmTint.jpg` | PRESENT (1.00) | PRESENT (1.00) |
+| `08_JPEGCompression_Artifacts.jpg` | PRESENT (1.00) | PRESENT (1.00) |
+| `09_CombinedDegradation.jpg` | PRESENT (1.00) | PRESENT (1.00) |
+
+Pada sampel yang tersedia, Otsu menyatakan tanda tangan hadir di semua 9 citra. Global menyatakan hadir pada 8 citra dan tidak hadir pada `02_LowContrast.jpg`. Sampel keluaran ini tidak memuat citra tanpa tanda tangan, jadi hasil untuk kelas tanpa tanda tangan belum dapat dilaporkan sebagai hasil pengujian aktual. Untuk melengkapi pengujian dua kelas, tambahkan beberapa citra tanpa tanda tangan ke folder masukan dan bandingkan keputusan program dengan label sebenarnya. Karena program memproses 9 gambar pertama yang diurutkan berdasarkan nama file, pastikan kumpulan uji yang dijalankan berisi citra yang ingin diuji.
+
+### Mengapa thresholding diperlukan?
+
+ROI masih berupa citra berwarna atau grayscale yang memiliki banyak nilai intensitas. Thresholding mengubahnya menjadi citra biner: piksel yang dianggap tinta menjadi foreground, sedangkan latar kertas menjadi background. Pemisahan ini membuat program lebih mudah menghitung kepadatan tinta, mencari komponen yang terhubung, mengukur bentuk objek, dan menerapkan aturan deteksi tanda tangan.
+
+Program menggunakan threshold inverse (`THRESH_BINARY_INV`): piksel dengan intensitas di bawah ambang menjadi putih/foreground. Global memakai ambang tetap 127, sedangkan Otsu memilih ambang dari histogram ROI. Contoh citra `02_LowContrast.jpg` memperlihatkan dampak pilihan ini: Global menghasilkan 7.283 piksel foreground, skor 0.40, dan `SIGNATURE ABSENT`; Otsu dengan ambang 198 menghasilkan 38.172 piksel foreground, skor 1.00, dan `SIGNATURE PRESENT`.
+
+### Dampak ambang terlalu rendah atau terlalu tinggi
+
+- **Ambang terlalu rendah:** hanya bagian yang sangat gelap yang menjadi foreground. Goresan tanda tangan yang tipis atau pudar dapat hilang atau terputus, sehingga jumlah tinta dan ukuran komponen mengecil. Akibatnya tanda tangan bisa salah dinyatakan tidak ada (*false negative*).
+- **Ambang terlalu tinggi:** lebih banyak piksel abu-abu, termasuk tekstur kertas, bayangan, atau noise, ikut menjadi foreground. Objek bisa membesar atau menyatu; kepadatan tinta dapat melewati batas maksimum 25% atau bentuk komponen berubah. Hal ini bisa menyebabkan deteksi keliru (*false positive*) atau justru membuat aturan bentuk gagal.
+
+Nilai ambang yang paling sesuai bergantung pada kontras dan pencahayaan. Otsu dapat menyesuaikan nilai ambang otomatis, tetapi hasilnya tetap perlu diperiksa, terutama pada citra dengan latar tidak rata atau noise tinggi.
+
 ## Batasan
 
 Hasil bergantung pada posisi ROI, kualitas gambar, pencahayaan, dan nilai ambang aturan. Tanda tangan yang berada di luar ROI atau terlalu tipis dapat terlewat. Tulisan, noda, atau objek lain yang memiliki ciri serupa dapat dianggap sebagai tanda tangan. Gunakan hasil sebagai penyaringan awal dan periksa gambar anotasi secara visual.
