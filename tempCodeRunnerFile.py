@@ -385,18 +385,17 @@ def analisis_ttd(roi_bgr, min_ink=0.004, max_ink=0.25):
     hasil_otsu = hasil["OTSU"]
 
     return (
-        hasil_global["verdict"],
-        hasil_global["score"],
-        hasil_global["blob"],
+        hasil_otsu["verdict"],
+        hasil_otsu["score"],
+        hasil_otsu["blob"],
         {
-            "bw": hasil_global["bw"],
-            "tanpa_garis": hasil_global["tanpa_garis"],
+            "bw": hasil_otsu["bw"],
+            "tanpa_garis": hasil_otsu["tanpa_garis"],
             "bw_global": hasil_global["bw"],
             "tanpa_garis_global": hasil_global["tanpa_garis"],
             "hasil_global": hasil_global,
             "hasil_otsu": hasil_otsu
         }
-        
     )
 
 
