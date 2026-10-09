@@ -1,6 +1,6 @@
 ﻿## MINI PROJECT: SISTEM VERIFIKASI KEASLIAN IJAZAH DAN ANALISIS ENHANCEMENT ROI NOMOR IJAZAH
 
-Dokumentasi ini berisi penyelesaian TUGAS 07 / Integrasi Proyek Mini mata kuliah Pengolahan Citra Digital untuk membangun prototipe verifikasi dokumen ijazah. Sistem ini mencakup deteksi keberadaan tanda tangan, peningkatan kualitas citra pada area nomor ijazah, serta ekstraksi teks menggunakan Optical Character Recognition (OCR) Tesseract yang dievaluasi dengan Character Error Rate (CER).
+Dokumentasi ini berisi penyelesaian TUGAS 7 Integrasi Proyek Mini mata kuliah Pengolahan Citra Digital untuk membangun prototipe verifikasi dokumen ijazah. Sistem ini mencakup deteksi keberadaan tanda tangan, peningkatan kualitas citra pada area nomor ijazah, serta ekstraksi teks menggunakan Optical Character Recognition (OCR) Tesseract yang dievaluasi dengan Character Error Rate (CER).
 
 ## Deskripsi & Alur Kerja Sistem
 
@@ -32,27 +32,34 @@ Tugas_7_Integrasi_Proyek_Mini/
 Folder `contoh_ijazah` berisi sembilan citra uji dengan kondisi kualitas yang bervariasi. Untuk setiap citra, folder hasil menyimpan ROI tanda tangan, citra hasil morfologi tanda tangan, dan empat citra nomor ijazah hasil filter.
 
 ## Cara Menjalankan Program
+# Program Verifikasi Ijazah dan Analisis OCR Berbasis Citra Digital
 
-**1. Masuk ke Folder Proyek**
+Sistem otomatisasi untuk memverifikasi keabsahan dokumen ijazah dengan melakukan ekstraksi Nomor Ijazah menggunakan **Tesseract OCR** dan deteksi keberadaan Tanda Tangan Kepala Sekolah menggunakan **Operasi Morfologi**.
 
-Di PowerShell, jalankan:
+---
 
+## Cara Menjalankan Program
+
+### 1. Clone Repositori Proyek
+Buka terminal/PowerShell, lalu klon repositori langsung dari GitHub:
 ```powershell
-cd "C:\Users\ACER\miniproject-citra\Tugas_7_Integrasi_Proyek_Mini"
+git clone https://github.com/wdartikasapta-byte/miniproject-citra.git
 ```
-
-PowerShell akan berubah menjadi `PS C:\Users\ACER\miniproject-citra\Tugas_7_Integrasi_Proyek_Mini>`.
-
-**2. Instalasi Pustaka**
-
+## 2. Instalasi Pustaka (Dependencies)
+Instal seluruh library Python yang dibutuhkan dengan menjalankan perintah:
 ```powershell
 python -m pip install opencv-python numpy pytesseract
 ```
+Prasyarat Tambahan: Pastikan aplikasi Tesseract OCR sudah terinstal di komputer pada lokasi bawaan C:\Program Files\Tesseract-OCR\tesseract.exe.
 
-Pastikan aplikasi Tesseract OCR juga sudah terpasang. Lokasi executable pada skrip diatur ke `C:\Program Files\Tesseract-OCR\tesseract.exe`.
+## 3. Masuk ke Folder Proyek di Terminal Baru
+Buka New Terminal di VS Code / PowerShell, lalu berpindah ke direktori kerja proyek:
 
-**3. Menjalankan Analisis Citra**
-
+```PowerShell
+cd miniproject-citra\Tugas_7_Integrasi_Proyek_Mini
+```
+## 4. Menjalankan Analisis Citra
+Jalankan skrip utama verifikasi ijazah dengan perintah:
 ```powershell
 python "verifikasi_file_ijazah.py"
 ```
