@@ -103,3 +103,6 @@ Pada citra berkualitas tinggi, filter pemulusan menghasilkan pembacaan sempurna,
 ### B. Contoh Kasus Ber-Noise Tinggi (04_HighNoise.jpg)
 Kasus ini membuktikan ketahanan filter pemulusan dalam mengatasi gangguan noise ekstrem pada citra, di mana Sharpening gagal mengekstrak karakter:
 ![alt text](image-1.png)
+
+### Hasil Eksekusi Program
+![alt text](<Screenshot 2026-10-09 040850.png>)
