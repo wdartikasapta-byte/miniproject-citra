@@ -1,6 +1,4 @@
-﻿MINI PROJECT: SISTEM VERIFIKASI KEASLIAN IJAZAH DAN ANALISIS ENHANCEMENT ROI NOMOR IJAZAH
-
-## Latar Belakang
+﻿## MINI PROJECT: SISTEM VERIFIKASI KEASLIAN IJAZAH DAN ANALISIS ENHANCEMENT ROI NOMOR IJAZAH
 
 Dokumentasi ini berisi penyelesaian TUGAS 07 / Integrasi Proyek Mini mata kuliah Pengolahan Citra Digital untuk membangun prototipe verifikasi dokumen ijazah. Sistem ini mencakup deteksi keberadaan tanda tangan, peningkatan kualitas citra pada area nomor ijazah, serta ekstraksi teks menggunakan Optical Character Recognition (OCR) Tesseract yang dievaluasi dengan Character Error Rate (CER).
 
@@ -68,21 +66,20 @@ Sistem verifikasi otomatis ini menggunakan dua cabang pemrosesan utama pada citr
 
 - Cabang Ekstraksi Nomor Ijazah (OCR):
 
-    1. Pengambilan ROI & Peningkatan Kontras: Citra dikonversi ke grayscale, kemudian diolah menggunakan CLAHE (Contrast Limited Adaptive          Histogram Equalization) untuk mempertegas kontras lokal sebelum dipotong pada area ROI nomor ijazah.
-    2. Uji Coba Spatial Filtering (Enhancement): Area ROI nomor ijazah diuji menggunakan 4 jenis filter spasial (kernel 3x3) untuk melihat pengaruhnya terhadap tingkat pembacaan OCR:
+    - Pengambilan ROI & Peningkatan Kontras: Citra dikonversi ke grayscale, kemudian diolah menggunakan CLAHE (Contrast Limited Adaptive          Histogram Equalization) untuk mempertegas kontras lokal sebelum dipotong pada area ROI nomor ijazah.
+    - Uji Coba Spatial Filtering (Enhancement): Area ROI nomor ijazah diuji menggunakan 4 jenis filter spasial (kernel 3x3) untuk melihat pengaruhnya terhadap tingkat pembacaan OCR:
 
-    - Mean Blur: Memuluskan citra dengan menghitung nilai rata-rata piksel lokal.
-    - Median Blur: Mengganti nilai piksel dengan nilai median tetangganya, sangat efektif meredam salt-and-pepper noise.
-    - Gaussian Blur: Memuluskan citra dengan bobot distribusi normal Gaussian.
-    - Sharpening (Laplacian Kernel): Menajamkan tepi karakter dengan penambahan matriks kernel konvolusi.
+        - Mean Blur: Memuluskan citra dengan menghitung nilai rata-rata piksel lokal.
+        - Median Blur: Mengganti nilai piksel dengan nilai median tetangganya, sangat efektif meredam salt-and-pepper noise.
+        - Gaussian Blur: Memuluskan citra dengan bobot distribusi normal Gaussian.
+        - Sharpening (Laplacian Kernel): Menajamkan tepi karakter dengan penambahan matriks kernel konvolusi.
 
-    3. Ekstraksi Teks (Tesseract OCR): Menggunakan mode --psm 7 dengan whitelist karakter angka/huruf untuk mengekstrak string nomor ijazah.
-    4. Evaluasi Akurasi (CER): Mengukur ketepatan hasil pembacaan teks terhadap Ground Truth (571012022000056) menggunakan algoritma Levenshtein Distance.
+    - Ekstraksi Teks (Tesseract OCR): Menggunakan mode --psm 7 dengan whitelist karakter angka/huruf untuk mengekstrak string nomor ijazah.
+    - Evaluasi Akurasi (CER): Mengukur ketepatan hasil pembacaan teks terhadap Ground Truth (571012022000056) menggunakan algoritma Levenshtein Distance.
 - Cabang Deteksi Keberadaan Tanda Tangan (TTD):
-
-    1. Area ROI tanda tangan diproses menggunakan pengambangan otomatis Otsu Thresholding (di-inversi).
-    2. Dilakukan pembersihan derau menggunakan Operasi Morfologi (Opening & Closing).
-    3. Keberadaan tanda tangan ditentukan berdasarkan jumlah piksel bernilai non-nol (piksel putih) di mana pixel_count > 500 dikategorikan sebagai PRESENT.
+    - Area ROI tanda tangan diproses menggunakan pengambangan otomatis Otsu Thresholding (di-inversi).
+    - Dilakukan pembersihan derau menggunakan Operasi Morfologi (Opening & Closing).
+    - Keberadaan tanda tangan ditentukan berdasarkan jumlah piksel bernilai non-nol (piksel putih) di mana pixel_count > 500 dikategorikan sebagai PRESENT.
 ### 2. Analisis Metode Terefektif (Berdasarkan CER)
 Berdasarkan eksekusi eksperimental pada 9 citra uji ijazah (01_HighQuality_Enhanced.jpg hingga 09_CombinedDegradation.jpg), diperoleh hasil analisis komparatif sebagai berikut:
 - Filter Pemulusan (Mean, Median, dan Gaussian Filter) — TEREFEKTIF
